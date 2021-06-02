@@ -14,13 +14,17 @@ The implementations are current as of go 1.16.
 quoted := []byte(`"foo \"bar\""`)
 str, ok := jsonconv.Unquote(quoted)
 // str should be `foo "bar"`
-// ...
 
 // encoding
 unquoted := `a \ b`
-jsonBytes := jsonconv.AppendQuote(nil, unquoted)
+jsonBytes := jsonconv.Quote(unquoted)
 // jsonBytes should be []byte(`"a \\ b"`)
-// ...
+
+// encoding into a pre-allocated buffer
+// var buffer []byte
+unquoted := `a \ b`
+buffer = jsonconv.AppendQuote(buffer, unquoted)
+// []byte(`"a \\ b"`) has been appended to buffer
 ```
 
 ## Why Not strconv?

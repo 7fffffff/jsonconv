@@ -33,14 +33,16 @@ func getu4(s []byte) rune {
 	return r
 }
 
-// Unquote converts a quoted JSON string literal s into an actual string t.
-// The rules are different than for Go, so cannot use strconv.Unquote.
+// Unquote converts a double-quoted JSON string literal s into an
+// actual string t.
 func Unquote(s []byte) (t string, ok bool) {
 	s, ok = UnquoteBytes(s)
 	t = string(s)
 	return
 }
 
+// UnquoteBytes converts a double-quoted JSON string literal s to the
+// unquoted and unescaped form
 func UnquoteBytes(s []byte) (t []byte, ok bool) {
 	if len(s) < 2 || s[0] != '"' || s[len(s)-1] != '"' {
 		return

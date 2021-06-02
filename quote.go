@@ -10,8 +10,8 @@ import (
 
 var hex = "0123456789abcdef"
 
-// AppendQuote appends the string s to dest as a quoted JSON string
-// literal, escaping as necessary.
+// AppendQuote appends the double-quoted JSON string literal representing
+// s, to dest and returns the extended buffer
 func AppendQuote(dest []byte, s string) []byte {
 	return appendQuote(dest, s, false)
 }
@@ -95,8 +95,8 @@ func appendQuote(dest []byte, s string, escapeHTML bool) []byte {
 	return dest
 }
 
-// AppendQuoteBytes appends the string stored in s to dest as a quoted
-// JSON string literal, escaping as necessary.
+// AppendQuoteBytes appends the double-quoted JSON string literal
+// representing s, to dest and returns the extended buffer
 func AppendQuoteBytes(dest, s []byte) []byte {
 	return appendQuoteBytes(dest, s, false)
 }
@@ -178,4 +178,25 @@ func appendQuoteBytes(dest, s []byte, escapeHTML bool) []byte {
 	}
 	dest = append(dest, '"')
 	return dest
+}
+
+// Quote returns the double-quoted JSON string literal representing s
+func Quote(s string) []byte {
+	return appendQuote(nil, s, false)
+}
+
+// QuoteEscapeHTML behaves as Quote, but also escapes <, >, and &
+func QuoteEscapeHTML(s string) []byte {
+	return appendQuote(nil, s, true)
+}
+
+// QuoteBytes returns the double-quoted JSON string literal
+// representing s
+func QuoteBytes(s []byte) []byte {
+	return appendQuoteBytes(nil, s, false)
+}
+
+// QuoteBytesEscapeHTML behaves as QuoteBytes, but also escapes <, >, and &
+func QuoteBytesEscapeHTML(s []byte) []byte {
+	return appendQuoteBytes(nil, s, true)
 }
